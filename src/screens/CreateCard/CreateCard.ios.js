@@ -5,7 +5,7 @@ import { Picker } from "@react-native-picker/picker";
 
 import { Container, ModalPicker, ConfirmPickerContainer, Confirm, ButtonWrapper } from './style';
 
-import CustomInput from "../../components/CustomInput";
+import CustomInput from "../../components/CustomInput/CustomInput";
 import CustomButtom from "../../components/CustomButtom/CustomButton";
 import createCard from "../../functions/BDOApi/createCard";
 
