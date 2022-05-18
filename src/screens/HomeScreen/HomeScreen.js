@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Text, SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
 import { Container, Header, LogoutButton, WelcomeText, SettingsButton } from './style'
 
@@ -9,7 +10,7 @@ import CustomButton from "../../components/CustomButtom/CustomButton";
 
 const HomeScreen = ({ navigation }) => {
 
-    const [username, setUsername] = useState('w BDOApp')
+    const [username, setUsername] = useState('w BDO')
 
     const onLogoutPress = () => {
         AsyncStorage.setItem('token', '');
@@ -37,13 +38,13 @@ const HomeScreen = ({ navigation }) => {
             <Container>
                 <Header>
                     <LogoutButton onPress={onLogoutPress}>
-                        <Text>{'🔚'}</Text>
+                        <Icon name={'logout'} size={20} solid />
                     </LogoutButton>
                     <WelcomeText>
                         {`Witaj ${username}`}
                     </WelcomeText>
                     <SettingsButton onPress={onSettingsPress}>
-                        <Text>{'\u2699'}</Text>
+                        <Icon name={'settings'} size={20} solid />
                     </SettingsButton>
                 </Header>
                 <HomeItem
@@ -56,8 +57,8 @@ const HomeScreen = ({ navigation }) => {
                     desc='Wystaw FV, Podgląd, Drukuj'
                     onPress={onManageInvoicePress}
                 />
-                <CustomButton style={{ width: '95%'}} title="SKANUJ KWIT WAGOWY" onPress={onScanWeightRecieptPress} />
-                <CustomButton style={{ width: '95%'}} title="PRZYJMIJ ZŁOM" onPress={onAcceptScrapPress} />
+                <CustomButton style={{ width: '95%' }} title="SKANUJ KWIT WAGOWY" onPress={onScanWeightRecieptPress} />
+                <CustomButton style={{ width: '95%' }} title="PRZYJMIJ ZŁOM" onPress={onAcceptScrapPress} />
             </Container>
         </SafeAreaView>
     )

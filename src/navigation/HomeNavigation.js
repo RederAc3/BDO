@@ -1,7 +1,6 @@
 import React from "react";
-import { Text } from "react-native"
-import styled from "styled-components";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 import HomeScreen from '../screens/HomeScreen/HomeScreen'
 import CardsTypeNavigation from "./CardsTypeNavigation";
@@ -13,22 +12,31 @@ const HomeNavigation = () => {
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
-                tabBarLabel: () => <Text>{route.name}</Text>,
-                tabBarIcon: ({ focused }) => <Icon focused={focused}></Icon>,
+                tabBarShowLabel: false,
+                tabBarActiveTintColor: '#0010CF',
+                tabBarInactiveTintColor: '#000',
                 headerShown: false,
             })}>
-            <Tab.Screen name="Główna" component={HomeScreen} />
-            <Tab.Screen name="Dodaj" component={CreateCardNavigation} />
-            <Tab.Screen name="Karty" component={CardsTypeNavigation} />
+            <Tab.Screen name="Główna" component={HomeScreen} options={{
+                tabBarIcon: ({ color }) => {
+                    return <Icon name={'home'} color={color} size={20}/>
+                }
+            }}
+            />
+            <Tab.Screen name="Dodaj" component={CreateCardNavigation} options={{
+                tabBarIcon: ({ color }) => {
+                    return <Icon name={'plus'} color={color} size={30}/>
+                }
+            }}
+            />
+            <Tab.Screen name="Karty" component={CardsTypeNavigation} options={{
+                tabBarIcon: ({ color }) => {
+                    return <Icon name={'file1'} color={color} size={20}/>
+                }
+            }}
+            />
         </Tab.Navigator>
     )
 }
-
-const Icon = styled.View`
-    width: 10px;
-    height: 10px;
-    background-color: #0010CF;
-    opacity: ${({focused}) => focused ? 1.0 : 0.4};
-`;
 
 export default HomeNavigation

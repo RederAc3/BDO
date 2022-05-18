@@ -1,4 +1,4 @@
-### An application created to automate internal processes for a scrap metal trading company. 
+### application created to automate internal processes for a scrap metal trading company. 
 #### Help to manage waste cards in a simple and fast way in the  [BDO system](https://bdo.mos.gov.pl/)
 #### File APK [here](/apk).
 
@@ -17,7 +17,7 @@ $ yarn run android
 ```
 
 # App functions
- ## for KPO Card
+## for KPO Card
 ✅ Create Card \
 ✅ Confirm Card \
 ✅ Confirm Transport \
@@ -25,7 +25,7 @@ $ yarn run android
 ✅ Generate Confirmation \
 ✅ Delete Card \
 ✅ Withdraw Card \
-✅ Correct Card \
+✅ Correct the Card \
 ✅ Reject Card
 
 #### 🛠 ToDo 
