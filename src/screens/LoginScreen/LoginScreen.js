@@ -40,8 +40,6 @@ const LoginScreen = ({ route, navigation }) => {
       return;
     }
     setLoading(true);
-    setUsername(username.trim())
-    setPassword(password.trim())
 
     try {
       if (username.length && password.length) {
@@ -82,7 +80,7 @@ const LoginScreen = ({ route, navigation }) => {
         <LabelInputText>{'Login'}</LabelInputText>
         <InputSelect
           placeholder={'Podaj login...'}
-          value={username}
+          value={username.trim()}
           error={error}
           onChangeText={setUsername}
           onSubmitEditing={validateInput}
@@ -92,7 +90,7 @@ const LoginScreen = ({ route, navigation }) => {
         <InputSelect
           placeholder={'Podaj hasło...'}
           secureTextEntry={true}
-          value={password}
+          value={password.trim()}
           error={error}
           onChangeText={setPassword}
           onSubmitEditing={validateInput}

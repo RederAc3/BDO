@@ -23,8 +23,6 @@ const ApiKeyRegistrationScreen = ({ route, navigation }) => {
         return (await axios.post('https://bdo.rdnt.pl/app/FPRRMUXZIDKIOKXOPI/signup', data)).data;
     }
     const onRegistrationButtonPress = async () => {
-        setPublicKey(publicKey.trim());
-        setSecureKey(secureKey.trim());
 
         publicKey.length && secureKey.length ? (
             setButtonTitle(<ActivityIndicator />),
@@ -55,10 +53,10 @@ const ApiKeyRegistrationScreen = ({ route, navigation }) => {
             <ErrorText>{error}</ErrorText>
             <View>
                 <LabelInputText>{'Klucz publiczny'}</LabelInputText>
-                <InputSelect placeholder={'PublicKeyID'} value={publicKey} error={error} onChangeText={setPublicKey} onSubmitEditing={validateInput} />
+                <InputSelect placeholder={'PublicKeyID'} value={publicKey.trim()} error={error} onChangeText={setPublicKey} onSubmitEditing={validateInput} />
 
                 <LabelInputText>{'Klucz prywatny'}</LabelInputText>
-                <InputSelect placeholder={'SecureKeyID'} value={secureKey} error={error} onChangeText={setSecureKey} onSubmitEditing={validateInput} />
+                <InputSelect placeholder={'SecureKeyID'} value={secureKey.trim()} error={error} onChangeText={setSecureKey} onSubmitEditing={validateInput} />
 
                 <TouchableOpacitySubmitButton onPress={onRegistrationButtonPress}>
                     <SubmitButtonText>{buttonTitle}</SubmitButtonText>

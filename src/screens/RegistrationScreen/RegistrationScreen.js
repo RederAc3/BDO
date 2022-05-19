@@ -32,9 +32,6 @@ const RegistrationScreen = ({ navigation }) => {
         }
 
         setLoading(true);
-        setUsername(username.trim())
-        setPassword(password.trim())
-        setRepeatedPassword(repeatedPassword.trim())
 
         validate() === 'validated' ? (await avaliableUser(username)).status === 'success' ? (
             Keyboard.dismiss(),
@@ -67,7 +64,7 @@ const RegistrationScreen = ({ navigation }) => {
                 <LabelInputText>{'Nazwa użytkownika'}</LabelInputText>
                 <InputSelect
                     placeholder={'Podaj nazwę...'}
-                    value={username}
+                    value={username.trim()}
                     error={error}
                     onChangeText={setUsername}
                     onSubmitEditing={validate}
@@ -77,7 +74,7 @@ const RegistrationScreen = ({ navigation }) => {
                 <InputSelect
                     placeholder={'Podaj hasło...'}
                     secureTextEntry={true}
-                    value={password}
+                    value={password.trim()}
                     error={error}
                     onChangeText={setPassword}
                     onSubmitEditing={validate}
@@ -87,7 +84,7 @@ const RegistrationScreen = ({ navigation }) => {
                 <InputSelect
                     placeholder={'Podaj hasło...'}
                     secureTextEntry={true}
-                    value={repeatedPassword}
+                    value={repeatedPassword.trim()}
                     error={error}
                     onChangeText={setRepeatedPassword}
                     onSubmitEditing={validate}
