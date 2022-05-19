@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const axios = require('axios');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 
 const app = express();
 require('dotenv/config');
@@ -30,7 +31,6 @@ const getToken = async (ClientId, ClientSecret, EupId) => {
         ClientSecret,
         EupId
     }
-    
     try {
         const response = await axios.post(`${domain}/api/WasteRegister/v1/Auth/generateEupAccessToken`, data, config)
         console.log(response.data);
@@ -66,7 +66,6 @@ const getEupId = async ({ ClientId, ClientSecret }) => {
     }
 
     try {
-        await console.log(data)
         const response = await axios.post(`${domain}/api/WasteRegister/v1/Auth/getEupList`, data, config)
         console.log(response.data);
         let status = { eupId: response.data.items[0].eupId }
@@ -81,7 +80,10 @@ const isAvailableUsername = async username => await !!(await User.find({ usernam
 
 const createUser = async ({ username, password, ClientId, ClientSecret }) => {
     try {
-        await new User({ username, password, ClientId, ClientSecret }).save()
+        const salt = bcrypt.genSaltSync(10);
+        const hash = await bcrypt.hash(password, salt);
+
+        await new User({ username, password: hash, ClientId, ClientSecret }).save()
     } catch (err) {
         console.error(err.message)
         return err.message
@@ -96,12 +98,15 @@ app.post('/app/:id/signin', async (req, res) => {
             await mongoose.connect(process.env.DB_CONNECTION)
             console.log('Connected to DB')
 
-            const userData = await User.find({ username, password })
-
-            console.log(userData)
+            const userData = await User.find({ username })
+            
             if (userData.length) {
-                const { eupId } = await getEupId(userData[0])
-                eupId ? res.json(await getToken(userData[0].ClientId, userData[0].ClientSecret, eupId)) : res.json({status: 'error'});
+                const result = await bcrypt.compare(password, userData[0].password)
+
+                if (result) {
+                    const { eupId } = await getEupId(userData[0])
+                    eupId ? res.json(await getToken(userData[0].ClientId, userData[0].ClientSecret, eupId)) : res.json({status: 'error'});
+                } else res.json({ status: 'error', message: 'Dane nie pasują do żadnego użytkownika!' })
             } else res.json({ status: 'error', message: 'Dane nie pasują do żadnego użytkownika!' })
 
         } catch (err) { console.log(err) }
