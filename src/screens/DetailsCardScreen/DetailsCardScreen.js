@@ -3,6 +3,7 @@ import { ActivityIndicator, Alert, Platform } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import prompt from 'react-native-prompt-android';
 import moment from 'moment';
+import RNPrint from 'react-native-print';
 
 import {
     Loader,
@@ -31,6 +32,9 @@ import confirmTransport from '../../functions/BDOApi/confirmTransport';
 import correctCard from '../../functions/BDOApi/correctCard';
 import printCard from '../../functions/BDOApi/printCard';
 import printConfirmation from '../../functions/BDOApi/printConfirmation';
+import getUrlConfirmation from '../../functions/getUrlConfirmation';
+import getUrlCard from '../../functions/getUrlCard';
+
 
 const isAndroid = Platform.OS === 'android';
 
@@ -260,11 +264,30 @@ const DetailsCardScreen = ({ route }) => {
             }]
         )
     }
-    const printConfirmationPress = () => {
-        console.warn('Drukowanie potwierdzenia');
+    const printConfirmationPress = async () => {
+        // console.warn('Drukowanie potwierdzenia');
+        const { url } = await getUrlConfirmation(kpoId);
+        url ? (
+            await RNPrint.print({
+                jobName: `confirmation-${kpoId}`,
+                filePath: url
+            })
+        ) : (
+            console.log('error')
+        )
     }
-    const printCardPress = () => {
-        console.warn('Drukowanie karty...')
+    const printCardPress = async () => {
+        // console.warn('Drukowanie karty...')
+        const { url } = await getUrlCard(kpoId);
+
+        url ? (
+            await RNPrint.print({
+                jobName: `card-${kpoId}`,
+                filePath: url
+            })
+        ) : (
+            console.log('error')
+        )
     }
     const withdrawCardPress = () => {
         // ZATWIERDZONA || POTWIERDZENIE WYGENEROWANE -> WYCOFANA
@@ -386,7 +409,7 @@ const DetailsCardScreen = ({ route }) => {
                         <Detail name="Imię i Nazwisko osoby, która wygenerowała potwierdzenie:" value={approvalUser || 'NIE WYGENEROWANO'} size={1} />
                     </DetailContainer>
                     <DetailContainer>
-                        <Detail name="Zatwierdzenie karty:" value={ cardApprovalTime ? moment(cardApprovalTime).format('DD/MM/YYYY hh:mm') : '-'} size={2} />
+                        <Detail name="Zatwierdzenie karty:" value={cardApprovalTime ? moment(cardApprovalTime).format('DD/MM/YYYY hh:mm') : '-'} size={2} />
                         {realTransportTime ? (
                             <Detail name="Rozpoczęcie transportu:" value={moment(realTransportTime).format('DD/MM/YYYY hh:mm')} size={2} />
                         ) : (

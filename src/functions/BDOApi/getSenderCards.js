@@ -48,12 +48,13 @@ const getSenderCards = async setCards => {
         },
     };
     try {
+
         const response = await axios.post(`${domain}/api/WasteRegister/WasteTransferCard/v1/Kpo/sender/search`, data, config);
         return setCards(response.data.items)
 
     } catch (err) {
+        console.log(domain)
         console.log(`[ getSenderCards ] - ${err}`);
-        console.log(token)
     }
 }
 
