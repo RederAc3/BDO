@@ -27,7 +27,9 @@ $ yarn run android
 ✅ Delete Card \
 ✅ Withdraw Card \
 ✅ Correct the Card \
-✅ Reject Card
+✅ Reject Card \
+✅ Print Confirmation \
+✅ Print Card \
 
 #### 🛠 ToDo 
 - [x] Login

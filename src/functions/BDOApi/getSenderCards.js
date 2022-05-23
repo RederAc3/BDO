@@ -39,7 +39,7 @@ const getSenderCards = async setCards => {
         ReceiveConfirmationDateFrom: null,
         ReceiveConfirmationDateTo: null
     };
-
+    
     let config = {
         headers: {
             accept: "application/json",

@@ -45,6 +45,8 @@ const DetailsCardScreen = ({ route }) => {
     const [isSending, setIsSending] = useState(false);
     const { popToTop } = useNavigation();
     const [printData, setPrintData] = useState('');
+    const [printConfirmationTitleButton, setPrintConfirmationTitleButton] = useState("Drukuj potwierdzenie")
+    const [printCardTitleButton, setPrintCardTitleButton] = useState("Drukuj kartę")
 
     const {
         cardNumber,
@@ -266,6 +268,7 @@ const DetailsCardScreen = ({ route }) => {
     }
     const printConfirmationPress = async () => {
         // console.warn('Drukowanie potwierdzenia');
+        setPrintConfirmationTitleButton(`${<ActivityIndicator/>} Generowanie wydruku`)
         const { url } = await getUrlConfirmation(kpoId);
         url ? (
             await RNPrint.print({
@@ -275,11 +278,12 @@ const DetailsCardScreen = ({ route }) => {
         ) : (
             console.log('error')
         )
+        setPrintConfirmationTitleButton("Drukuj potwierdzenie")
     }
     const printCardPress = async () => {
         // console.warn('Drukowanie karty...')
+        setPrintCardTitleButton(<ActivityIndicator/>)
         const { url } = await getUrlCard(kpoId);
-
         url ? (
             await RNPrint.print({
                 jobName: `card-${kpoId}`,
@@ -288,6 +292,7 @@ const DetailsCardScreen = ({ route }) => {
         ) : (
             console.log('error')
         )
+        setPrintCardTitleButton("Drukuj kartę")
     }
     const withdrawCardPress = () => {
         // ZATWIERDZONA || POTWIERDZENIE WYGENEROWANE -> WYCOFANA
@@ -424,8 +429,8 @@ const DetailsCardScreen = ({ route }) => {
                         {visibilityButton.confirmCard ? <CustomButton title="Zatwierdź" onPress={confirmCardPress} /> : <></>}
                         {visibilityButton.generateConfirmation ? <CustomButton title="Wygeneruj potwierdzenie" onPress={generateConfirmationPress} /> : <></>}
                         {visibilityButton.confirmAndGenerateConfirmation ? <CustomButton title="Zatwierdź i wygeneruj potwierdzenie" onPress={confirmAndGenerateConfirmationPress} /> : <></>}
-                        {visibilityButton.printConfirmation ? <CustomButton title="Drukuj potwierdzenie" onPress={printConfirmationPress} /> : <></>}
-                        {visibilityButton.printCard ? <CustomButton title="Drukuj kartę" onPress={printCardPress} /> : <></>}
+                        {visibilityButton.printConfirmation ? <CustomButton title={printConfirmationTitleButton} onPress={printConfirmationPress} /> : <></>}
+                        {visibilityButton.printCard ? <CustomButton title={printCardTitleButton} onPress={printCardPress} /> : <></>}
                         {visibilityButton.withdraw ? <CustomButton title="Wycofaj" color="#DB5F5F" onPress={withdrawCardPress} /> : <></>}
                         {visibilityButton.delete ? <CustomButton title="Usuń" color="#DB5F5F" onPress={deleteCardPress} /> : <></>}
                     </ButtonContainer>

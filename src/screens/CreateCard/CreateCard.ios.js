@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Alert, ActivityIndicator } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Picker } from "@react-native-picker/picker";
+import moment from 'moment';
 
 import { Container, ModalPicker, ConfirmPickerContainer, Confirm, ButtonWrapper } from './style';
 
@@ -38,6 +39,12 @@ const CreateCard = () => {
         const dateTime = new Date(date).setHours(date.getHours() - (date.getTimezoneOffset() / 60) );
         return new Date(dateTime)
     }
+    
+    const dateTimeConfirm = (date) => {
+        hideDateTimePicker();
+        setDateTime(moment(date).format('DD/MM/YYYY HH:mm'));
+        setDate(offsetDate(date));
+    };
 
     const checkErrors = () => {
         !(selectedCompany && selectedPlace && selectedVehicle && selectedWasteCodeId && wasteMass && date) ? (
@@ -50,12 +57,6 @@ const CreateCard = () => {
                 }]
             )
         ) : setErrorCheck(false)
-    };
-
-    const dateTimeConfirm = (date) => {
-        hideDateTimePicker();
-        setDateTime(moment(date).format('DD/MM/YYYY hh:mm'));
-        setDate(offsetDate(date));
     };
 
     const onPlannedCardPressed = async () => {

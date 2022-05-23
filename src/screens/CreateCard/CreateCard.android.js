@@ -37,7 +37,7 @@ const CreateCard = () => {
 
     const dateTimeConfirm = (date) => {
         hideDateTimePicker();
-        setDateTime(moment(date).format('DD/MM/YYYY hh:mm'));
+        setDateTime(moment(date).format('DD/MM/YYYY HH:mm'));
         setDate(offsetDate(date));
     };
 
