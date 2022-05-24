@@ -16,9 +16,6 @@ import printConfirmation from './functions/printConfirmation.js';
 
 app.use(bodyParser.json());
 
-// const domain = 'https://test-bdo.mos.gov.pl';
-// const appCode = 'FPRRMUXZIDKIOKXOPI'; 
-
 app.get('/', (req, res) => {
     res.send('BDO system management application :)');
 });

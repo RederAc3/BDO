@@ -268,7 +268,7 @@ const DetailsCardScreen = ({ route }) => {
     }
     const printConfirmationPress = async () => {
         // console.warn('Drukowanie potwierdzenia');
-        setPrintConfirmationTitleButton(`${<ActivityIndicator/>} Generowanie wydruku`)
+        setPrintConfirmationTitleButton(`${<ActivityIndicator/>}`)
         const { url } = await getUrlConfirmation(kpoId);
         url ? (
             await RNPrint.print({

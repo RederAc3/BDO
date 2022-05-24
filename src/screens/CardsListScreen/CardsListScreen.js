@@ -1,6 +1,7 @@
 import React from "react";
 import Card from '../../components/Card/Card';
 import { Container, TextEmpty, Cards } from './style';
+import sortCards from "../../functions/sortCarts";
 
 const CardsListScreen = ({ route }) => {
     const cards = route.params.cards;
@@ -10,7 +11,7 @@ const CardsListScreen = ({ route }) => {
         <Container>
             {cards.length === 0 ? <TextEmpty>Brak kart do wyświetlenia</TextEmpty> : (
                 <Cards
-                    data={cards}
+                    data={sortCards(cards)}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => <Card key={item.kpoId} role={role} {...item} />}
                     showsVerticalScrollIndicator={false}

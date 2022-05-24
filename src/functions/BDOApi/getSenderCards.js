@@ -8,36 +8,17 @@ const getSenderCards = async setCards => {
     let data = {
         PaginationParameters: {
             Order: {
-                IsAscending: true,
-                OrderColumn: null
+                IsAscending: false
             },
             Page: {
                 Index: 0,
                 Size: 50
             }
         },
-        Year: null,
         SearchInCarriers: false,
         SearchInReceivers: true,
-        Name: null,
-        Locality: null,
-        Street: null,
-        Nip: null,
-        IdentificationNumber: null,
-        WasteCodeAndDescription: null,
-        CardNumber: null,
-        CardStatusCodeNames: null,
-        TransportTime: null,
-        ReceiveConfirmationTime: null,
-        SenderFirstNameAndLastName: null,
-        ReceiverFirstNameAndLastName: null,
-        VehicleRegNumber: null,
-        TransportDateRange: true,
-        TransportDateFrom: null,
-        TransportDateTo: null,
-        ReceiveConfirmationDateRange: true,
-        ReceiveConfirmationDateFrom: null,
-        ReceiveConfirmationDateTo: null
+        TransportDateRange: false,
+        ReceiveConfirmationDateRange: false
     };
     
     let config = {
@@ -47,6 +28,7 @@ const getSenderCards = async setCards => {
             Authorization: `Bearer ${await getToken()}`
         },
     };
+
     try {
 
         const response = await axios.post(`${domain}/api/WasteRegister/WasteTransferCard/v1/Kpo/sender/search`, data, config);

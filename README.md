@@ -29,7 +29,7 @@ $ yarn run android
 ✅ Correct the Card \
 ✅ Reject Card \
 ✅ Print Confirmation \
-✅ Print Card \
+✅ Print Card
 
 #### 🛠 ToDo 
 - [x] Login
