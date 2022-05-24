@@ -47,7 +47,7 @@ const DetailsCardScreen = ({ route }) => {
     const [printData, setPrintData] = useState('');
     const [printConfirmationTitleButton, setPrintConfirmationTitleButton] = useState("Drukuj potwierdzenie")
     const [printCardTitleButton, setPrintCardTitleButton] = useState("Drukuj kartę")
-
+    
     const {
         cardNumber,
         wasteMass,
@@ -102,7 +102,6 @@ const DetailsCardScreen = ({ route }) => {
             }]
         )
     }
-
     const confirmReceivedPress = () => {
         // POTWIERDZENIE WYGENEROWANE -> POTWIERDZENIE PRZEJĘCIA
         Alert.alert(
@@ -296,6 +295,7 @@ const DetailsCardScreen = ({ route }) => {
     }
     const withdrawCardPress = () => {
         // ZATWIERDZONA || POTWIERDZENIE WYGENEROWANE -> WYCOFANA
+        
         isAndroid ? (
             prompt(
                 'Wycofanie karty',
@@ -342,6 +342,7 @@ const DetailsCardScreen = ({ route }) => {
         )
     }
     const deleteCardPress = () => {
+        setDeleteTitleButton(<ActivityIndicator />)
         Alert.alert(
             'Usunąć kartę?',
             '',
@@ -357,6 +358,7 @@ const DetailsCardScreen = ({ route }) => {
                 )
             }]
         )
+        setDeleteTitleButton("Usuń")
     }
 
     return (
@@ -414,11 +416,11 @@ const DetailsCardScreen = ({ route }) => {
                         <Detail name="Imię i Nazwisko osoby, która wygenerowała potwierdzenie:" value={approvalUser || 'NIE WYGENEROWANO'} size={1} />
                     </DetailContainer>
                     <DetailContainer>
-                        <Detail name="Zatwierdzenie karty:" value={cardApprovalTime ? moment(cardApprovalTime).format('DD/MM/YYYY hh:mm') : '-'} size={2} />
+                        <Detail name="Zatwierdzenie karty:" value={cardApprovalTime ? moment(cardApprovalTime).format('DD/MM/YYYY HH:mm') : '-'} size={2} />
                         {realTransportTime ? (
-                            <Detail name="Rozpoczęcie transportu:" value={moment(realTransportTime).format('DD/MM/YYYY hh:mm')} size={2} />
+                            <Detail name="Rozpoczęcie transportu:" value={moment(realTransportTime).format('DD/MM/YYYY HH:mm')} size={2} />
                         ) : (
-                            <Detail name="Planowane rozpoczęcie transportu:" value={moment(plannedTransportTime).format('DD/MM/YYYY hh:mm')} size={2} />
+                            <Detail name="Planowane rozpoczęcie transportu:" value={moment(plannedTransportTime).format('DD/MM/YYYY HH:mm')} size={2} />
                         )}
                     </DetailContainer>
                     <ButtonContainer>

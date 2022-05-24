@@ -37,7 +37,7 @@ return (
 
             <PropertiesWrapper>
                 <Property title={'rodzaj'} value={wasteCodeDescription} />
-                <Property title={'Data i godzina'} value={moment(plannedTransportTime).format('DD/MM/YYYY hh:mm')} />
+                <Property title={'Data i godzina'} value={moment(plannedTransportTime).format('DD/MM/YYYY HH:mm')} />
             </PropertiesWrapper>
 
             <ButtonsWrapper>
