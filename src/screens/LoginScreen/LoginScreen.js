@@ -45,15 +45,15 @@ const LoginScreen = ({ route, navigation }) => {
       if (username.length && password.length) {
 
         const { status, message, token } = (await axios.post('https://bdo.rdnt.pl/app/FPRRMUXZIDKIOKXOPI/signin', { username, password })).data;
-        status === 'success' ? (
-          Keyboard.dismiss(),
-          console.log(status, message, token.AccessToken),
-          AsyncStorage.setItem('token', token.AccessToken),
-          AsyncStorage.setItem('username', username),
-          AsyncStorage.setItem('expiresTime', token.ExpiresTime + Date.now().toString()),
-          navigation.navigate("Home")
+        if (status === 'success') {
+          Keyboard.dismiss()
+          const expiresTime = ((token.ExpiresIn * 1000) + Date.now()).toString()
 
-        ) : setError(message)
+          AsyncStorage.setItem('token', token.AccessToken)
+          AsyncStorage.setItem('username', username)
+          AsyncStorage.setItem('expiresTime', expiresTime)
+          navigation.navigate("Home")
+        } else setError(message)
 
       } else validateInput()
 

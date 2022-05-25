@@ -16,18 +16,20 @@ const MainNavigation = () => {
 
     useEffect(() => {
         setLoading(true)
-        setTimeout(() => {
-            AsyncStorage.getItem('token').then(val => {
-                val ? (
-                    setAuthenticate(!!val),
-                    setLoading(false)
-                ) : (
-                    setAuthenticate(false),
-                    setLoading(false)
-                )
-            }) 
+        setTimeout(async () => {
+            const token = await AsyncStorage.getItem('token');
+            const expiresTime = await AsyncStorage.getItem('expiresTime');
+
+            token && expiresTime > Date.now() ? (
+                setAuthenticate(!!token),
+                setLoading(false)
+            ) : (
+                setAuthenticate(false),
+                setLoading(false)
+            )
         }, 500)
     }, [])
+    
     return (
 
         <Stack.Navigator screenOptions={() => ({ headerShown: false })}>
