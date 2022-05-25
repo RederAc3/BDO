@@ -2,6 +2,7 @@ import axios from 'axios';
 import { domain } from './config';
 
 import getToken from './getToken';
+import getCompanyId from '../getCompanyId';
 
 const createCard = async (selectedCompany, selectedPlace, wasteCodeId, vehicleRegNumber, wasteMass, dateTime) => {
     let config = {
@@ -13,7 +14,7 @@ const createCard = async (selectedCompany, selectedPlace, wasteCodeId, vehicleRe
     };
 
     let data = {
-        carrierCompanyId: "3a4806f6-8144-4bf5-8607-710cd282e821", // COMPANY ID TRANSPORTUJĄCEGO pociągnąc z async storage
+        carrierCompanyId: await getCompanyId(),
         receiverCompanyId: selectedCompany,
         receiverEupId: selectedPlace,
         wasteCodeId: wasteCodeId,

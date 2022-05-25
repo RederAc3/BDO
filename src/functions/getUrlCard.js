@@ -1,5 +1,6 @@
 import axios from 'axios';
 import getToken from './BDOApi/getToken';
+import { backend } from './BDOApi/config'
 
 const getUrlCard = async kpoId => {
 
@@ -8,7 +9,7 @@ const getUrlCard = async kpoId => {
         const data = {
             token: await getToken()
         }
-        const response = await axios.post(`https://bdo.rdnt.pl/app/FPRRMUXZIDKIOKXOPI/save/card/${kpoId}`, data);
+        const response = await axios.post(`${backend}/app/FPRRMUXZIDKIOKXOPI/save/card/${kpoId}`, data);
         return response.data
     } catch (err) {
         console.log(`[ getUrlCard ] - ${err}`);

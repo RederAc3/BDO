@@ -7,7 +7,7 @@ import 'dotenv/config'
 
 const app = express();
 
-import { domain, appCode } from './config.js';
+import { domain, appCode, backend } from './config.js';
 
 import User from './models/User.js';
 import printCard from './functions/printCard.js';
@@ -70,7 +70,10 @@ const getEupId = async ({ ClientId, ClientSecret }) => {
     try {
         const response = await axios.post(`${domain}/api/WasteRegister/v1/Auth/getEupList`, data, config)
         console.log(response.data);
-        let status = { eupId: response.data.items[0].eupId }
+        let status = {
+            eupId: response.data.items[0].eupId,
+            companyId: response.data.items[0].companyId
+        }
         return status
     } catch (err) {
 
@@ -106,8 +109,15 @@ app.post('/app/:id/signin', async (req, res) => {
                 const result = await bcrypt.compare(password, userData[0].password)
 
                 if (result) {
-                    const { eupId } = await getEupId(userData[0])
-                    eupId ? res.json(await getToken(userData[0].ClientId, userData[0].ClientSecret, eupId)) : res.json({ status: 'error' });
+                    const { eupId, companyId } = await getEupId(userData[0])
+                    const tokenInfo = await getToken(userData[0].ClientId, userData[0].ClientSecret, eupId)
+                    
+                    let resInfo = {
+                        ...tokenInfo,
+                        companyId: companyId,
+                    }
+                    eupId ? res.json(resInfo) : res.json({ status: 'error' });
+                    // const mergeResponse = tokenInfo + companyId;
                 } else res.json({ status: 'error', message: 'Dane nie pasują do żadnego użytkownika!' })
             } else res.json({ status: 'error', message: 'Dane nie pasują do żadnego użytkownika!' })
 
@@ -138,7 +148,7 @@ app.post('/app/:id/save/card/:kpoId', async (req, res) => {
             const data = await printCard(kpoId, token);
             await saveFile(data, 'cards', kpoId);
 
-            res.json({ url: `https://bdo.rdnt.pl/pdf/card/${kpoId}` });
+            res.json({ url: `${backend}/pdf/card/${kpoId}` });
         } catch (err) {
             console.log(`[ saveCard ] - ${err}`);
         }
@@ -154,7 +164,7 @@ app.post('/app/:id/save/confirmation/:kpoId', async (req, res) => {
             const data = await printConfirmation(kpoId, token);
             await saveFile(data, 'confirmations', kpoId);
 
-            res.json({ url: `https://bdo.rdnt.pl/pdf/confirmation/${kpoId}` })
+            res.json({ url: `${backend}/pdf/confirmation/${kpoId}` })
         } catch (err) {
             console.log(`[ saveConfirmation ] - ${err}`);
         }

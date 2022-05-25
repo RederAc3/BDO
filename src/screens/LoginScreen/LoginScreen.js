@@ -16,6 +16,8 @@ import {
   RegistrationText
 } from './style';
 
+import { backend } from '../../functions/BDOApi/config'
+
 const LoginScreen = ({ route, navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -44,7 +46,7 @@ const LoginScreen = ({ route, navigation }) => {
     try {
       if (username.length && password.length) {
 
-        const { status, message, token } = (await axios.post('https://bdo.rdnt.pl/app/FPRRMUXZIDKIOKXOPI/signin', { username, password })).data;
+        const { status, message, token, companyId } = (await axios.post(`${backend}/app/FPRRMUXZIDKIOKXOPI/signin`, { username, password })).data;
         if (status === 'success') {
           Keyboard.dismiss()
           const expiresTime = ((token.ExpiresIn * 1000) + Date.now()).toString()
@@ -52,6 +54,7 @@ const LoginScreen = ({ route, navigation }) => {
           AsyncStorage.setItem('token', token.AccessToken)
           AsyncStorage.setItem('username', username)
           AsyncStorage.setItem('expiresTime', expiresTime)
+          AsyncStorage.setItem('companyId', companyId)
           navigation.navigate("Home")
         } else setError(message)
 

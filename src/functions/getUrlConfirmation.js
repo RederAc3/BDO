@@ -1,5 +1,6 @@
 import axios from 'axios';
 import getToken from './BDOApi/getToken';
+import { backend } from './BDOApi/config';
 
 const getUrlConfirmation = async kpoId => {
 
@@ -8,7 +9,7 @@ const getUrlConfirmation = async kpoId => {
         const data = {
             token: await getToken()
         }
-        const response = await axios.post(`https://bdo.rdnt.pl/app/FPRRMUXZIDKIOKXOPI/save/confirmation/${kpoId}`, data);
+        const response = await axios.post(`${backend}/app/FPRRMUXZIDKIOKXOPI/save/confirmation/${kpoId}`, data);
         return response.data
     } catch (err) {
         console.log(`[ getUrlConfirmation ] - ${err}`);
