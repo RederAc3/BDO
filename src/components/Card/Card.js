@@ -5,7 +5,14 @@ import moment from "moment";
 import Property from './Property/Property';
 import CustomButton from "../CustomButtom/CustomButton";
 
-import { Container, Header, HeaderText, StatusText, PropertiesWrapper, ButtonsWrapper} from './style'
+import {
+    Container,
+    Header,
+    HeaderText,
+    StatusText,
+    PropertiesWrapper,
+    ButtonsWrapper
+} from './style'
 
 const Card = ({
     role,
@@ -17,13 +24,13 @@ const Card = ({
     kpoId,
 }) => {
 
-const { navigate } = useNavigation()
+    const { navigate } = useNavigation()
 
-const moreButtonPress = () => {
-    navigate('Informacje', { kpoId, role, cardStatusCodeName, wasteCodeDescription });
-}
+    const moreButtonPress = () => {
+        navigate('Informacje', { kpoId, role, cardStatusCodeName, wasteCodeDescription });
+    }
 
-return (
+    return (
         <Container>
             <Header>
                 <HeaderText>
@@ -36,12 +43,12 @@ return (
             </StatusText>
 
             <PropertiesWrapper>
-                <Property title={'rodzaj'} value={wasteCodeDescription} />
+                <Property title={'Rodzaj'} value={wasteCodeDescription} />
                 <Property title={'Data i godzina'} value={moment(plannedTransportTime).format('DD/MM/YYYY HH:mm')} />
             </PropertiesWrapper>
 
             <ButtonsWrapper>
-                    <CustomButton title="Więcej" onPress={moreButtonPress} />
+                <CustomButton title="Więcej" onPress={moreButtonPress} />
             </ButtonsWrapper>
         </Container>
     )

@@ -3,10 +3,20 @@ import axios from "axios";
 import { View, Keyboard, ActivityIndicator } from 'react-native';
 import isKeysCorrect from '../../functions/BDOApi/isKeysCorrect';
 
-import { Container, Info, ApiTitle, ErrorText, TouchableOpacitySubmitButton, SubmitButtonText, InputSelect, LabelInputText } from './style' ;
+import {
+    Container,
+    Info,
+    ApiTitle,
+    ErrorText,
+    TouchableOpacitySubmitButton,
+    SubmitButtonText,
+    InputSelect,
+    LabelInputText
+} from './style';
+import { backend } from '../../functions/BDOApi/config';
 
 const ApiKeyRegistrationScreen = ({ route, navigation }) => {
-    const { username, password } = route.params
+    const { username, password } = route.params;
     const [buttonTitle, setButtonTitle] = useState('Zarejestruj');
     const [publicKey, setPublicKey] = useState('');
     const [secureKey, setSecureKey] = useState('');
@@ -20,7 +30,7 @@ const ApiKeyRegistrationScreen = ({ route, navigation }) => {
             ClientSecret: secureKey
         }
 
-        return (await axios.post('https://bdo.rdnt.pl/app/FPRRMUXZIDKIOKXOPI/signup', data)).data;
+        return (await axios.post(`${backend}/app/FPRRMUXZIDKIOKXOPI/signup`, data)).data;
     }
     const onRegistrationButtonPress = async () => {
 

@@ -114,7 +114,7 @@ const CreateCard = () => {
                     </ConfirmPickerContainer>
                     <Picker
                         selectedValue={selectedCompany}
-                        onValueChange={(itemValue, itemIndex) => (setSelectedCompany(itemValue), console.log('itemValue: ', itemValue, 'itemIndex: ', itemIndex))}>
+                        onValueChange={itemValue => setSelectedCompany(itemValue)}>
                         <Picker.Item label="Wybierz przejmującego" value="" />
                         <Picker.Item label="BSK RETURN SPÓŁKA AKCYJNA" value="8a8c5425-4fb7-4a8a-a89e-f49b1af1077c" />
 
@@ -140,7 +140,7 @@ const CreateCard = () => {
                     </ConfirmPickerContainer>
                     <Picker
                         selectedValue={selectedPlace}
-                        onValueChange={(itemValue, itemIndex) => (setSelectedPlace(itemValue), console.log('itemValue: ', itemValue, 'itemIndex: ', itemIndex))}>
+                        onValueChange={itemValue => setSelectedPlace(itemValue)}>
                         <Picker.Item label="Wybierz miejsce działalności" value="" />
                         <Picker.Item label="Zawiercie Okólna 10" value="b996fc4d-fbae-4ffa-8bec-48e73f21951b" />
                     </Picker>
@@ -165,7 +165,7 @@ const CreateCard = () => {
                     </ConfirmPickerContainer>
                     <Picker
                         selectedValue={selectedWasteCodeId}
-                        onValueChange={(itemValue, itemIndex) => (setSelectedWasteCodeId(itemValue), console.log('itemValue: ', itemValue, 'itemIndex: ', itemIndex))}>
+                        onValueChange={itemValue => setSelectedWasteCodeId(itemValue)}>
                         <Picker.Item label="Wybierz rodzaj odpadu" value="" />
                         <Picker.Item label="Odpady z toczenia i piłowania żelaza oraz jego stopów" value="647" />
                         <Picker.Item label="Żelazo i stal" value="854" />
@@ -186,7 +186,6 @@ const CreateCard = () => {
                     onPressIn={openWasteCodePicker} />
             ) : <></>}
 
-
             {isVehiclePickerVisible ? (
                 <ModalPicker>
                     <ConfirmPickerContainer onPress={closeVehiclePicker}>
@@ -198,7 +197,7 @@ const CreateCard = () => {
                             height: 20,
                         }}
                         mode='dropdown'
-                        onValueChange={(itemValue, itemIndex) => (setSelectedVehicle(itemValue), console.log('itemValue: ', itemValue, 'itemIndex: ', itemIndex))}>
+                        onValueChange={itemValue => setSelectedVehicle(itemValue)}>
                         <Picker.Item label="Wybierz pojazd" value="" />
                         <Picker.Item label="SMT 53SW" value="SMT53SW" />
 

@@ -16,7 +16,7 @@ const CustomPicker = ({ title, selectedValue, onValueChange, items, error}) => {
                     height: 50,
                     width: '100%'
                 }}
-                onValueChange={(itemValue, itemIndex) => (onValueChange(itemValue), console.log('itemValue: ', itemValue, 'itemIndex: ', itemIndex))}
+                onValueChange={itemValue => onValueChange(itemValue)}
             >
                 {items.map(({ label, value }) => <Picker.Item key={value} label={label} value={value} />)}
             </Picker>

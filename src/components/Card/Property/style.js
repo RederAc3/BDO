@@ -5,7 +5,6 @@ padding: 10px 15px 0;
 `;
 
 export const Name = styled.Text`
-text-transform: capitalize;
 text-align: center;
 font-weight: 700;
 color: #000;

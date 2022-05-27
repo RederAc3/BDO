@@ -30,7 +30,6 @@ const createCard = async (selectedCompany, selectedPlace, wasteCodeId, vehicleRe
         isWasteGenerating: false,
     };
 
-    console.log(data)
     try {
         const response = await axios.post(`${domain}/api/WasteRegister/WasteTransferCard/v1/Kpo/create/plannedcard`, data, config)
         return response.data

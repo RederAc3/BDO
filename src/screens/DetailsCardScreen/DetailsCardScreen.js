@@ -30,8 +30,6 @@ import rejectCard from '../../functions/BDOApi/rejectCard';
 import confirmReceived from '../../functions/BDOApi/confirmReceived';
 import confirmTransport from '../../functions/BDOApi/confirmTransport';
 import correctCard from '../../functions/BDOApi/correctCard';
-import printCard from '../../functions/BDOApi/printCard';
-import printConfirmation from '../../functions/BDOApi/printConfirmation';
 import getUrlConfirmation from '../../functions/getUrlConfirmation';
 import getUrlCard from '../../functions/getUrlCard';
 
@@ -44,7 +42,6 @@ const DetailsCardScreen = ({ route }) => {
     const [details, setDetails] = useState({});
     const [isSending, setIsSending] = useState(false);
     const { popToTop } = useNavigation();
-    const [printData, setPrintData] = useState('');
     const [printConfirmationTitleButton, setPrintConfirmationTitleButton] = useState("Drukuj potwierdzenie")
     const [printCardTitleButton, setPrintCardTitleButton] = useState("Drukuj kartę")
     
@@ -167,6 +164,7 @@ const DetailsCardScreen = ({ route }) => {
         )
     }
     const correctCardPress = () => {
+        // ODRZUCONA > POTWIERDZENIE WYGENEROWANE
         isAndroid ? (
             prompt(
                 'Korekta karty',
@@ -266,8 +264,8 @@ const DetailsCardScreen = ({ route }) => {
         )
     }
     const printConfirmationPress = async () => {
-        // console.warn('Drukowanie potwierdzenia');
-        setPrintConfirmationTitleButton(`${<ActivityIndicator/>}`)
+
+        setPrintConfirmationTitleButton(<ActivityIndicator/>)
         const { url } = await getUrlConfirmation(kpoId);
         url ? (
             await RNPrint.print({
@@ -280,7 +278,7 @@ const DetailsCardScreen = ({ route }) => {
         setPrintConfirmationTitleButton("Drukuj potwierdzenie")
     }
     const printCardPress = async () => {
-        // console.warn('Drukowanie karty...')
+
         setPrintCardTitleButton(<ActivityIndicator/>)
         const { url } = await getUrlCard(kpoId);
         url ? (
