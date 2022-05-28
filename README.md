@@ -3,14 +3,14 @@
 #### File APK [here](/apk).
 
 # 📸 Screenshots
-| Login | Register | Add API Keys | Home |
+| Login | Registration | Add API Keys | Home |
 | --- | --- | --- | --- |
-| <img src="./screenshots/LoginScreen.png" width="200"> | <img src="./screenshots/RegistrationScreen.png" width="200"> | <img src="./screenshots/AddAPIKeysScreen.png" width="200"> | <img src="./screenshots/HomeScreen.png" width="200"> |
+| <img src="./screenshots/LoginScreen.png" width="220"> | <img src="./screenshots/RegistrationScreen.png" width="220"> | <img src="./screenshots/AddAPIKeysScreen.png" width="220"> | <img src="./screenshots/HomeScreen.png" width="220"> |
 
 ##
 | Create Card | Details Card | Cards Status | Cards List  |
 | --- | --- | --- | --- |
-| <img src="./screenshots/CreateCardScreen.png" width="200"> | <img src="./screenshots/DetailsCardScreen.png" width="200"> | <img src="./screenshots/CardsStatusScreen.png" width="200"> | <img src="./screenshots/CardsListScreen.png" width="200"> |
+| <img src="./screenshots/CreateCardScreen.png" width="220"> | <img src="./screenshots/DetailsCardScreen.png" width="220"> | <img src="./screenshots/CardsStatusScreen.png" width="220"> | <img src="./screenshots/CardsListScreen.png" width="220"> |
 
 # App functions
 ## for KPO Card
