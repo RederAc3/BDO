@@ -5,7 +5,7 @@
 # 📸 Screenshots
 | Login | Register | Add API Keys | Home |
 | --- | --- | --- | --- |
-| <img src="./screenshots/LoginScreen.png" width="200"> | <img src="./screenshots/RegisterScreen.png" width="200"> | <img src="./screenshots/AddAPIKeysScreen.png" width="200"> | <img src="./screenshots/Home.png" width="200"> |
+| <img src="./screenshots/LoginScreen.png" width="200"> | <img src="./screenshots/RegistrationScreen.png" width="200"> | <img src="./screenshots/AddAPIKeysScreen.png" width="200"> | <img src="./screenshots/HomeScreen.png" width="200"> |
 
 ##
 | Create Card | Details Card | Cards Status | Cards List  |
