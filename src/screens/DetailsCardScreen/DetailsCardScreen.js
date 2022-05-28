@@ -340,7 +340,6 @@ const DetailsCardScreen = ({ route }) => {
         )
     }
     const deleteCardPress = () => {
-        setDeleteTitleButton(<ActivityIndicator />)
         Alert.alert(
             'Usunąć kartę?',
             '',
@@ -356,7 +355,6 @@ const DetailsCardScreen = ({ route }) => {
                 )
             }]
         )
-        setDeleteTitleButton("Usuń")
     }
 
     return (
@@ -385,9 +383,11 @@ const DetailsCardScreen = ({ route }) => {
                     <DetailContainer>
                         <Detail name="KpoId:" value={kpoId} size={1} />
                     </DetailContainer>
-                    <DetailContainer>
-                        <Detail name="Numer karty:" value={cardNumber || '-'} size={1} />
-                    </DetailContainer>
+                    {cardNumber ? (
+                        <DetailContainer>
+                            <Detail name="Numer karty:" value={cardNumber || '-'} size={1} />
+                        </DetailContainer>
+                    ) : <></>}
                     <DetailContainer>
                         <Detail name="Rodzaj odpadów:" value={wasteCodeDescription} size={1} />
                     </DetailContainer>
@@ -409,16 +409,17 @@ const DetailsCardScreen = ({ route }) => {
                     <LineContainer>
                         <Line></Line>
                     </LineContainer>
-
+                    {approvalUser ? (
+                        <DetailContainer>
+                            <Detail name="Imię i Nazwisko osoby, która wygenerowała potwierdzenie:" value={approvalUser || 'NIE WYGENEROWANO'} size={1} />
+                        </DetailContainer>
+                    ) : <></>}
                     <DetailContainer>
-                        <Detail name="Imię i Nazwisko osoby, która wygenerowała potwierdzenie:" value={approvalUser || 'NIE WYGENEROWANO'} size={1} />
-                    </DetailContainer>
-                    <DetailContainer>
-                        <Detail name="Zatwierdzenie karty:" value={cardApprovalTime ? moment(cardApprovalTime).format('DD/MM/YYYY HH:mm') : '-'} size={2} />
                         {realTransportTime ? (
+                            <Detail name="Zatwierdzenie karty:" value={cardApprovalTime ? moment(cardApprovalTime).format('DD/MM/YYYY HH:mm') : '-'} size={2} />,
                             <Detail name="Rozpoczęcie transportu:" value={moment(realTransportTime).format('DD/MM/YYYY HH:mm')} size={2} />
                         ) : (
-                            <Detail name="Planowane rozpoczęcie transportu:" value={moment(plannedTransportTime).format('DD/MM/YYYY HH:mm')} size={2} />
+                            <Detail name="Planowane rozpoczęcie transportu:" value={moment(plannedTransportTime).format('DD/MM/YYYY HH:mm')} size={1} />
                         )}
                     </DetailContainer>
                     <ButtonContainer>
