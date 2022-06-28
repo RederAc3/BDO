@@ -1,6 +1,6 @@
 ### Application created to automate internal processes for a scrap metal trading company. 
 #### Help to manage waste cards in a simple and fast way in the  [BDO system](https://bdo.mos.gov.pl/)
-#### File APK [here](/apk).
+#### File APK [here](https://github.com/RederAc3/BDO/releases).
 
 # 📸 Screenshots
 | Login | Registration | Add API Keys | Home |
@@ -34,19 +34,3 @@
 - [ ] User custom settings
 - [ ] [BDOBot](https://github.com/RederAc3/telegramBdoBot) integration
 - [ ] Invoice management
- 
-
-# Setup
-```
-$ git clone https://github.com/RederAc3/BDO.git
-$ cd BDO
-$ yarn install
-
-# for iOS
-$ cd ./ios && pod install && cd ..
-$ yarn run ios
-
-# for Android
-$ yarn run android
-
-```
