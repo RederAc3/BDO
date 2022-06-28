@@ -16,6 +16,12 @@ const UserSchema = mongoose.Schema({
     ClientSecret: {
         type: String,
         required: true
+    },
+    initialPrintCode : { 
+        type: String
+    },
+    printers: {
+        type: Array
     }
 })
 

@@ -113,6 +113,54 @@ app.get('/pdf/card/:kpoId', (req, res) => {
     res.sendFile(`pdf/cards/${req.params.kpoId}.pdf`, { root: '.' });
 });
 
+app.get('/users/:code', async (req, res) => {
+    const code = req.params.code;
+    console.log(code)
+    await mongoose.connect(process.env.DB_CONNECTION)
+    console.log('Connected to DB')
+
+    const userData = await User.find({ initialPrintCode: code });
+
+    if (userData[0]) {
+        res.json({
+            status: 'success',
+            data: {
+                id: userData[0].id,
+                username: userData[0].username,
+            }
+        })
+    } else res.json({ status: 'error', message: 'Code not found!' })
+
+})
+
+app.put('/users/:id', async (req, res) => {
+    const _id = req.params.id;
+    const printerLink = req.body.printer;
+
+    console.log(req.body.printer)
+    await mongoose.connect(process.env.DB_CONNECTION)
+    console.log('Connected to DB')
+    const userData = await User.find({ printers: [printerLink] });
+
+    if (userData[0]) {
+        console.log('ta drukarka jest już przypisana do konta')
+        res.json({ status: 'error', message: 'Drukarka jest już przypisana do tego konta' });
+    } else {
+        const updatePrinters = await User.updateOne({ _id }, { printers: [printerLink] });
+        console.log(updatePrinters)
+
+        console.log('Przypisano drukarkę do konta')
+        if (updatePrinters.acknowledged) {
+            res.json({
+                status: 'success',
+                message: 'Konfiguracja przebiegła pomyślnie. \nDrukarka dodana do konta.'
+            });
+        } else res.json({ status: 'error', message: 'Update printers error' });
+    }
+
+
+})
+
 app.all('*', (req, res) => {
     res.redirect('/')
 });
