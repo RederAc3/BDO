@@ -1,4 +1,4 @@
-### Application created to automate internal processes for a scrap metal trading company. 
+### A mobile application created to automate internal processes for a scrap metal trading company.
 #### Help to manage waste cards in a simple and fast way in the  [BDO system](https://bdo.mos.gov.pl/)
 #### File APK [here](https://github.com/RederAc3/BDO/releases).
 
