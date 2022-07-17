@@ -18,7 +18,7 @@ const HomeScreen = ({ navigation }) => {
     }
 
     const onSettingsPress = () => {
-        console.warn("Ustawienia")
+        navigation.navigate('Ustawienia')
     }
     const onManageBdoPress = () => {
         navigation.navigate('Karty')

@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import HomeScreen from '../screens/HomeScreen/HomeScreen'
 import CardsTypeNavigation from "./CardsTypeNavigation";
 import CreateCardNavigation from "./CreateCardNavigation";
+import SettingsNavigation from "./SettingsNavigation";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +18,7 @@ const HomeNavigation = () => {
                 tabBarInactiveTintColor: '#000',
                 headerShown: false,
             })}>
-            <Tab.Screen name="Główna" component={HomeScreen} options={{
+            <Tab.Screen name="Główna" component={SettingsNavigation} options={{
                 tabBarIcon: ({ color }) => {
                     return <Icon name={'home'} color={color} size={20}/>
                 }
