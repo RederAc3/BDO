@@ -14,3 +14,10 @@ export const InputElement = styled.TextInput`
     margin: 0;
     padding: 5px 0;
 `;
+
+export const IconTouch = styled.TouchableOpacity`
+    position: absolute;
+    justify-content: center;
+    right: 0;
+    padding: 19px;
+`;

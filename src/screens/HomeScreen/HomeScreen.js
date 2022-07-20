@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import { Container, Header, LogoutButton, WelcomeText, SettingsButton } from './style'
 
 import HomeItem from "./HomeItem/HomeItem";
-import CustomButton from "../../components/CustomButtom/CustomButton";
+import CustomButton from "../../components/CustomButton/CustomButton";
 
 const HomeScreen = ({ navigation }) => {
 

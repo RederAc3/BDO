@@ -19,7 +19,7 @@ import {
 } from './style'
 
 import Detail from '../../components/Detail/Detail';
-import CustomButton from "../../components/CustomButtom/CustomButton";
+import CustomButton from "../../components/CustomButton/CustomButton";
 
 import getCardDetails from '../../functions/BDOApi/getCardDetails';
 import generateConfirmation from '../../functions/BDOApi/generateConfirmation';

@@ -6,7 +6,7 @@ import moment from 'moment';
 import { Container, ButtonWrapper } from './style';
 
 import CustomInput from "../../components/CustomInput/CustomInput";
-import CustomButtom from "../../components/CustomButtom/CustomButton";
+import CustomButtom from "../../components/CustomButton/CustomButton";
 import CustomPicker from "./CustomPicker/CustomPicker";
 import createCard from "../../functions/BDOApi/createCard";
 

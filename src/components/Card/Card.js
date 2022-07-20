@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import moment from "moment";
 
 import Property from './Property/Property';
-import CustomButton from "../CustomButtom/CustomButton";
+import CustomButton from "../CustomButton/CustomButton";
 
 import {
     Container,

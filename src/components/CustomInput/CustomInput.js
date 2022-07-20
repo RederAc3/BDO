@@ -1,12 +1,15 @@
 import React from "react";
 import { TouchableOpacity } from 'react-native'
 
-import { Container, TitleInput, InputElement } from './style'
+import { Container, TitleInput, InputElement, IconTouch } from './style'
 
-const CustomInput = ({ title, value, placeholder, editable, keyboardType, onPress, onChangeText, error, onPressIn }) => {
+const CustomInput = ({ title, value, placeholder, editable, keyboardType, onPress, onChangeText, error, onPressIn, icon, onPressIcon }) => {
 
     return (
-        <Container style={{borderWidth: error ? ( !value ? 1 : 0 ) : 0}}>
+        <Container style={{
+            borderWidth: error ? ( !value ? 1 : 0 ) : 0,
+            flexDirection: title ? 'column' : 'row'
+        }}>
             <TitleInput>{title}</TitleInput>
             <TouchableOpacity onPress={onPress}>
                 <InputElement
@@ -18,6 +21,7 @@ const CustomInput = ({ title, value, placeholder, editable, keyboardType, onPres
                     onPressIn={onPressIn}
                 />
             </TouchableOpacity>
+            { icon && <IconTouch onPress={onPressIcon}>{ icon }</IconTouch> }
         </Container>
     )
 }

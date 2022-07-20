@@ -6,7 +6,7 @@ import { Container } from './style';
 import getSenderCards from '../../functions/BDOApi/getSenderCards';
 import getCarrierCards from '../../functions/BDOApi/getCarrierCards';
 import getReceiverCards from '../../functions/BDOApi/getReceiverCards';
-import CustomButton from "../../components/CustomButtom/CustomButton";
+import CustomButton from "../../components/CustomButton/CustomButton";
 
 const CardsTypeScreen = ({ route, navigation }) => {
 

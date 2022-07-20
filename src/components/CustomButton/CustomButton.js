@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Button, ButtonText } from './style';
 
-const CustomButtom = ({ title, onPress, color, style }) => {
+const CustomButton = ({ title, onPress, color, style }) => {
 
     return (
         <Button onPress={onPress} style={style} color={color}>
@@ -11,4 +11,4 @@ const CustomButtom = ({ title, onPress, color, style }) => {
     )
 }
 
-export default CustomButtom;
+export default CustomButton;
