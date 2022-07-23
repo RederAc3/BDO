@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import bcrypt from 'bcrypt';
+import axios from 'axios';
 import 'dotenv/config'
 
 
@@ -104,6 +105,23 @@ app.post('/app/:id/save/confirmation/:kpoId', async (req, res) => {
         }
     } else res.json({ status: 'error', message: 'Connection to API failed' });
 });
+
+// SOCKET connection
+
+app.post('/app/:id/config/printer', async (req, res) => {
+    if (req.params.id === appCode) {
+        const { userId, code } = req.body;
+        const data = { code, userId }
+
+        try {
+            const response = await axios.post('http://localhost:5420/config', data);
+            res.json(response.data)
+
+        } catch (err) { console.log(err) }
+    } else res.json({ status: 'error', message: 'Connection to API failed' })
+})
+
+// PDF
 
 app.get('/pdf/confirmation/:kpoId', (req, res) => {
     res.sendFile(`pdf/confirmations/${req.params.kpoId}.pdf`, { root: '.' });

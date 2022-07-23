@@ -8,8 +8,6 @@ import { ButtonSwitch } from './style';
 import CustomInput from "../../components/CustomInput/CustomInput";
 import CustomButton from "../../components/CustomButton/CustomButton";
 
-
-
 const UserSettingsScreen = () => {
     const [isEnabled, setIsEnabled] = useState(false);
     const [qrCodeInputValue, setQrCodeInputValue] = useState('') 
@@ -19,18 +17,17 @@ const UserSettingsScreen = () => {
     const appCode = 'FPRRMUXZIDKIOKXOPI'
 
     const IconPressed = () => {
-        console.warn('qrcode-scan')
+        console.warn('Funkcja niedostępna')
     }
 
     const ConnectButtonPressed = async () => {
         let data = {
             code: qrCodeInputValue
-        };
+        }
     
         try {
-            console.warn(qrCodeInputValue)
-            // const response = await axios.post(`${url}/app/${appCode}/config/printer`, data);
-            // console.log(response.data)
+            const response = await axios.post(`${url}/app/${appCode}/config/printer`, data);
+            console.log(response.data)
     
         } catch (err) {
             console.log(`[ configPrinter ] - ${err}`);
@@ -53,7 +50,7 @@ const UserSettingsScreen = () => {
                 isEnabled ?
                     <>
                         <CustomInput
-                            placeholder='Wpisz kod parowania lub zeskanuj kod QR'
+                            placeholder='Wpisz kod parowania lub zeskanuj QR'
                             value={qrCodeInputValue}
                             onChangeText={setQrCodeInputValue}
                             icon={<Icon name={'qrcode-scan'} size={20} solid />}
