@@ -5,10 +5,11 @@ import bcrypt from 'bcrypt';
 import axios from 'axios';
 import 'dotenv/config'
 
-
 import { appCode, backend } from './config.js';
 
 import User from './models/User.js';
+import Printers from './models/Printers.js';
+
 import printCard from './functions/printCard.js';
 import saveFile from './functions/saveFile.js';
 import printConfirmation from './functions/printConfirmation.js';
@@ -31,7 +32,7 @@ app.post('/app/:id/signin', async (req, res) => {
         const { username, password } = req.body
 
         try {
-            await mongoose.connect(process.env.DB_CONNECTION)
+            mongoose.connect(process.env.DB_CONNECTION)
             console.log('Connected to DB')
 
             const userData = await User.find({ username })
@@ -63,7 +64,7 @@ app.post('/app/:id/signup', async (req, res) => {
         const { username, password } = req.body
 
         try {
-            await mongoose.connect(process.env.DB_CONNECTION)
+            mongoose.connect(process.env.DB_CONNECTION)
             console.log('Connected to DB')
 
             await isAvailableUsername(username) ? res.json({ status: 'error', message: 'User exist' }) : !password ? res.json({ status: 'success' }) : (
@@ -108,18 +109,146 @@ app.post('/app/:id/save/confirmation/:kpoId', async (req, res) => {
 
 // SOCKET connection
 
-app.post('/app/:id/config/printer', async (req, res) => {
+app.post('/app/:id/settings/printer/config', async (req, res) => {
+    if (req.params.id != appCode) {
+        res.status(404).json({ status: 'error', message: 'Connection to API failed' });
+        return;
+    }
+
+    const { userId, code } = req.body;
+    const data = { code, userId }
+
+    mongoose.connect(process.env.DB_CONNECTION)
+
+    const checkPrinterExists = async SOCKET => {
+        const printersList = await Printers.find({ userId });
+        const { printers } = printersList[0];
+        let exists = false;
+
+        if (printers.length) {
+            printers.forEach(printer => {
+                exists = printer.socketId === SOCKET
+            });
+        }
+        return exists;
+    }
+
+    try {
+        const checkValue = await checkPrinterExists(code);
+        if (checkValue) {
+            console.log({ status: 'error', message: 'Printer already exists' })
+            res.json({ status: 'error', message: 'Printer already exists' })
+            return
+        }
+
+        const response = await axios.post('http://localhost:5420/config', data, { timeout: 3000 });
+        if (response.data.config) {
+            const { socketId, printerName } = response.data;
+
+            Printers.updateOne({ userId }, { printers: [{ name: printerName, socketId }] }, (err, result) => {
+                if (err) {
+                    res.send(err);
+                    return;
+                }
+                res.json({ status: 'success', message: 'Printer configurated' });
+            });
+        }
+        console.log(response.data)
+
+    } catch (err) {
+        console.log(err.message);
+        console.log({ error: 'Kod niepoprawny' })
+        res.json({ error: 'Kod niepoprawny' })
+    }
+})
+
+// PRINTER
+
+app.post('/app/:id/settings/printer', async (req, res) => {
     if (req.params.id === appCode) {
-        const { userId, code } = req.body;
-        const data = { code, userId }
+        const { userId, remotePrinting } = req.body;
 
         try {
-            const response = await axios.post('http://localhost:5420/config', data);
-            res.json(response.data)
+            console.log(req.body)
+            mongoose.connect(process.env.DB_CONNECTION)
+            console.log('uuid: ' + userId)
+            if (!userId) {
+                res.status(404).json({ status: 'error', message: 'The user must not be empty' })
+                return;
+            }
 
-        } catch (err) { console.log(err) }
+            Printers.updateOne({ userId }, { remotePrinting }, (err, result) => {
+                if (err) {
+                    res.send({ status: 'error', message: 'Error while updating' });
+                    return;
+                }
+
+                res.json({ status: 'success', remotePrinting })
+            });
+
+        } catch (err) {
+            console.log(err.message);
+            res.json({ error: 'Kod niepoprawny' })
+        }
     } else res.json({ status: 'error', message: 'Connection to API failed' })
+});
+
+app.post('/app/:id/switchs/status', async (req, res) => {
+    if (req.params.id != appCode) {
+        res.status(404).json({ status: 'error', message: 'Connection to API failed' });
+        return;
+    }
+
+    const { userId } = req.body;
+    console.log(userId);
+
+    if (!userId) {
+        res.json({ status: 'error', message: 'The user must not be empty' })
+        return;
+    }
+
+    try {
+        mongoose.connect(process.env.DB_CONNECTION)
+        Printers.findOne({ userId }, (err, result) => {
+            if (err) {
+                res.send(err);
+                return;
+            }
+            console.log('result: ', result)
+            if (result) {
+                console.log(result.remotePrinting)
+                res.json({ remotePrinting: result.remotePrinting })
+            } else {
+
+                const printerSettings = new Printers({ userId, remotePrinting: false, printers: [{}] });
+                printerSettings.save((err, result) => {
+                    if (err) {
+                        res.send(err);
+                        return;
+                    }
+                    console.log('result: ', result)
+                    res.json({ status: 'success', remotePrinting: false })
+                });
+            }
+        });
+    } catch (err) {
+        console.log('errors', err.message);
+    }
 })
+
+app.post('/app/:id/printers/list', async (req, res) => {
+    if (req.params.id != appCode) {
+        res.status(404).json({ status: 'error', message: 'Connection to API failed' });
+        return;
+    }
+
+    const { userId } = req.body;
+    console.log('userId: ' + userId);
+    const printersList = await Printers.find({ userId });
+
+    console.log(printersList[0].printers)
+    res.json({ status: 'success', printers: printersList[0].printers });
+});
 
 // PDF
 
@@ -134,7 +263,8 @@ app.get('/pdf/card/:kpoId', (req, res) => {
 app.get('/users/:code', async (req, res) => {
     const code = req.params.code;
     console.log(code)
-    await mongoose.connect(process.env.DB_CONNECTION)
+    mongoose.connect(process.env.DB_CONNECTION)
+
     console.log('Connected to DB')
 
     const userData = await User.find({ initialPrintCode: code });
@@ -156,7 +286,8 @@ app.put('/users/:id', async (req, res) => {
     const printerLink = req.body.printer;
 
     console.log(req.body.printer)
-    await mongoose.connect(process.env.DB_CONNECTION)
+    mongoose.connect(process.env.DB_CONNECTION)
+
     console.log('Connected to DB')
     const userData = await User.find({ printers: [printerLink] });
 
@@ -175,8 +306,6 @@ app.put('/users/:id', async (req, res) => {
             });
         } else res.json({ status: 'error', message: 'Update printers error' });
     }
-
-
 })
 
 app.all('*', (req, res) => {

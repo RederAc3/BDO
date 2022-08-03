@@ -51,10 +51,15 @@ const LoginScreen = ({ route, navigation }) => {
           Keyboard.dismiss()
           const expiresTime = ((token.ExpiresIn * 1000) + Date.now()).toString()
 
-          AsyncStorage.setItem('token', token.AccessToken)
-          AsyncStorage.setItem('username', username)
-          AsyncStorage.setItem('expiresTime', expiresTime)
-          AsyncStorage.setItem('companyId', companyId)
+          try {
+            await AsyncStorage.setItem('token', token.AccessToken)
+            await AsyncStorage.setItem('username', username)
+            await AsyncStorage.setItem('expiresTime', expiresTime)
+            await AsyncStorage.setItem('companyId', companyId)
+          } catch (e) {
+            console.log('[ AsyncStorage ]', e)
+          }
+
           navigation.navigate("Home")
         } else setError(message)
 

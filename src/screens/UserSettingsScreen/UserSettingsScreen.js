@@ -1,69 +1,160 @@
-import React, { useState } from "react";
-import { View, Text, Switch, In } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Text, Switch, ActivityIndicator } from "react-native";
 import axios from "axios";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { ButtonSwitch } from './style';
+import { ButtonSwitch, Info } from './style';
 
 import CustomInput from "../../components/CustomInput/CustomInput";
 import CustomButton from "../../components/CustomButton/CustomButton";
 
+
 const UserSettingsScreen = () => {
-    const [isEnabled, setIsEnabled] = useState(false);
-    const [qrCodeInputValue, setQrCodeInputValue] = useState('') 
-    
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    const [isLoading, setIsLoading] = useState(false);
+    const [switchs, setSwitchs] = useState({});
+    const [qrCodeInputValue, setQrCodeInputValue] = useState('')
+    const [printers, getPrinters] = useState([]);
     const url = 'https://bdo.rdnt.pl'
     const appCode = 'FPRRMUXZIDKIOKXOPI'
 
-    const IconPressed = () => {
+    const getUserId = async () => {
+        try {
+            const userId = await AsyncStorage.getItem('companyId')
+            if (userId) return userId
+
+        } catch (err) {
+            console.log(`[ AsyncStorage - companyId ] - ${err}`);
+            return;
+        }
+    }
+
+    const getSwitchsStatus = async setSwitchs => {
+        try {
+            const response = await axios.post(`${url}/app/${appCode}/switchs/status`, { userId: await getUserId() });
+            setIsLoading(false);
+            return setSwitchs(response.data);
+
+        } catch (err) {
+            console.log(`[ getSwitchsStatus ] - ${err}`);
+        }
+    }
+
+    const getPrintersList = async () => {
+        try {
+            const response = await axios.post(`${url}/app/${appCode}/printers/list`, { userId: await getUserId() });
+            getPrinters(response.data.printers);
+
+        } catch (err) {
+            console.log(`[ getPrintersList ] - ${err}`);
+        }
+    }
+
+    useEffect(() => {
+        setIsLoading(true);
+        getPrintersList()
+        getSwitchsStatus(setSwitchs);
+    }, [])
+
+    const toggleSwitch = async () => {
+        const data = {
+            userId: await getUserId(),
+            remotePrinting: !switchs.remotePrinting
+        }
+        try {
+            const response = await axios.post(`${url}/app/${appCode}/settings/printer`, { ...data });
+            const { status, message, remotePrinting } = response.data;
+
+            console.log('response', response.data);
+            if (status === 'success') {
+                setSwitchs({ remotePrinting: !!remotePrinting });
+                return;
+            }
+            console.warn('Wystąpił błąd: ' + message)
+
+        } catch (err) {
+            console.log(`[ toggleSwitch ] - ${err}`);
+        }
+
+    }
+
+    const qrScanPressed = () => {
         console.warn('Funkcja niedostępna')
     }
 
-    const ConnectButtonPressed = async () => {
+    const removePrinter = () => {
+        console.warn('Druakrka zostanie usunięta')
+    }
+
+    const connectButtonPressed = async () => {
         let data = {
-            code: qrCodeInputValue
+            code: qrCodeInputValue.toUpperCase().trim(),
+            userId: await getUserId()
         }
-    
+
+        if (qrCodeInputValue.length === 0) {
+            console.warn('Wprowadź kod połączenia z drukarką')
+            return;
+        }
+
         try {
-            const response = await axios.post(`${url}/app/${appCode}/config/printer`, data);
-            console.log(response.data)
-    
+            const response = await axios.post(`${url}/app/${appCode}/settings/printer/config`, data);
+            const { status } = response.data;
+
+            if (status === 'success') {
+                getPrintersList();
+                setQrCodeInputValue('');
+                return;
+            }
+
         } catch (err) {
             console.log(`[ configPrinter ] - ${err}`);
         }
-    } 
-
+    }
     return (
-        <>
+
+        !isLoading ? <>
             <ButtonSwitch>
                 <Text>Zdalne drukowanie</Text>
                 <Switch
                     trackColor={{ false: '#767577', true: '#767577' }}
-                    thumbColor={isEnabled ? '#0010CF' : '#f4f3f4'}
+                    thumbColor={switchs.remotePrinting ? '#0010CF' : '#f4f3f4'}
                     ios_backgroundColor='#3e3e3e'
                     onValueChange={toggleSwitch}
-                    value={isEnabled}
+                    value={switchs.remotePrinting}
                 />
             </ButtonSwitch>
             {
-                isEnabled ?
+                switchs.remotePrinting ?
                     <>
-                        <CustomInput
-                            placeholder='Wpisz kod parowania lub zeskanuj QR'
-                            value={qrCodeInputValue}
-                            onChangeText={setQrCodeInputValue}
-                            icon={<Icon name={'qrcode-scan'} size={20} solid />}
-                            onPressIcon={IconPressed}
-                        />
-                        <CustomButton
-                            title='POŁĄCZ'
-                            onPress={ConnectButtonPressed}
-                        />
+                        {printers.length ? (printers.map(printer => (
+
+                            <CustomInput
+                                key={printer.socketId}
+                                value={printer.name}
+                                icon={<Icon name={'trash-can'} size={20} solid />}
+                                onPressIcon={removePrinter}
+                            />
+                        ))) : (<>
+                            <Info>Brak podłączonych drukarek</Info>
+
+                            <CustomInput
+                                placeholder='Wpisz kod parowania lub zeskanuj QR'
+                                value={qrCodeInputValue}
+                                onChangeText={setQrCodeInputValue}
+                                icon={<Icon name={'qrcode-scan'} size={20} solid />}
+                                onPressIcon={qrScanPressed}
+                            />
+
+                            <CustomButton
+                                title='POŁĄCZ'
+                                onPress={connectButtonPressed}
+                            />
+                        </>)}
                     </>
                     : null
             }
-        </>
+        </> : <ActivityIndicator />
     )
 }
 
