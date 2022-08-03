@@ -16,15 +16,6 @@
 ✅ Print Confirmation \
 ✅ Print Card
 
-# 📸 Screenshots
-| Login | Registration | Add API Keys | Home |
-| --- | --- | --- | --- |
-| <img src="./screenshots/LoginScreen.png" width="220"> | <img src="./screenshots/RegistrationScreen.png" width="220"> | <img src="./screenshots/AddAPIKeysScreen.png" width="220"> | <img src="./screenshots/HomeScreen.png" width="220"> |
-
-| Create Card | Details Card | Cards Status | Cards List  |
-| --- | --- | --- | --- |
-| <img src="./screenshots/CreateCardScreen.png" width="220"> | <img src="./screenshots/DetailsCardScreen.png" width="220"> | <img src="./screenshots/CardsStatusScreen.png" width="220"> | <img src="./screenshots/CardsListScreen.png" width="220"> |
-
 #### 🛠 ToDo 
 - [x] Login
 - [x] Registration
@@ -34,3 +25,12 @@
 - [ ] User custom settings
 - [ ] [BDOBot](https://github.com/RederAc3/telegramBdoBot) integration
 - [ ] Invoice management
+
+# 📸 Screenshots
+| Login | Registration | Add API Keys | Home |
+| --- | --- | --- | --- |
+| <img src="./screenshots/LoginScreen.png" width="220"> | <img src="./screenshots/RegistrationScreen.png" width="220"> | <img src="./screenshots/AddAPIKeysScreen.png" width="220"> | <img src="./screenshots/HomeScreen.png" width="220"> |
+
+| Create Card | Details Card | Cards Status | Cards List  |
+| --- | --- | --- | --- |
+| <img src="./screenshots/CreateCardScreen.png" width="220"> | <img src="./screenshots/DetailsCardScreen.png" width="220"> | <img src="./screenshots/CardsStatusScreen.png" width="220"> | <img src="./screenshots/CardsListScreen.png" width="220"> |
