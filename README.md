@@ -2,8 +2,7 @@
 #### Help to manage waste cards in a simple and fast way in the  [BDO system](https://bdo.mos.gov.pl/)
 #### File APK [here](https://github.com/RederAc3/BDO/releases).
 
-# App functions
-## for KPO Card
+# App functions ( only KPO )
 ✅ Create Card \
 ✅ Confirm Card \
 ✅ Confirm Transport \
