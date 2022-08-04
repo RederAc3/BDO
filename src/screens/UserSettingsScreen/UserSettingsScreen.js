@@ -82,8 +82,25 @@ const UserSettingsScreen = () => {
         console.warn('Funkcja niedostępna')
     }
 
-    const removePrinter = () => {
+    const removePrinter = async (socketId) => {
         console.warn('Druakrka zostanie usunięta')
+        const data = {
+            userId: await getUserId(),
+            socketId
+        }
+
+        try {
+            const response = await axios.post(`${url}/app/${appCode}/settings/printer/remove`, { ...data });
+            const { status, message } = response.data;
+            if (status === 'success') {
+                await getPrintersList();
+                return;
+            }
+            console.warn('Wystąpił błąd usunięcia: ' + message)
+
+        } catch (err) {
+            console.log(`[ removePrinter ] - ${err}`);
+        }
     }
 
     const connectButtonPressed = async () => {
@@ -127,13 +144,13 @@ const UserSettingsScreen = () => {
             {
                 switchs.remotePrinting ?
                     <>
-                        {printers.length ? (printers.map(printer => (
+                        {printers.length ? (printers.map(({ socketId, name}) => (
 
                             <CustomInput
-                                key={printer.socketId}
-                                value={printer.name}
+                                key={socketId}
+                                value={name}
                                 icon={<Icon name={'trash-can'} size={20} solid />}
-                                onPressIcon={removePrinter}
+                                onPressIcon={() => removePrinter(socketId)}
                             />
                         ))) : (<>
                             <Info>Brak podłączonych drukarek</Info>

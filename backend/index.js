@@ -211,7 +211,7 @@ app.post('/app/:id/switchs/status', async (req, res) => {
         mongoose.connect(process.env.DB_CONNECTION)
         Printers.findOne({ userId }, (err, result) => {
             if (err) {
-                res.send(err);
+                res.json({ status: 'error', message: err});
                 return;
             }
             console.log('result: ', result)
@@ -223,7 +223,7 @@ app.post('/app/:id/switchs/status', async (req, res) => {
                 const printerSettings = new Printers({ userId, remotePrinting: false, printers: [{}] });
                 printerSettings.save((err, result) => {
                     if (err) {
-                        res.send(err);
+                        res.json({ status: 'error', message: err});
                         return;
                     }
                     console.log('result: ', result)
@@ -249,6 +249,38 @@ app.post('/app/:id/printers/list', async (req, res) => {
     console.log(printersList[0].printers)
     res.json({ status: 'success', printers: printersList[0].printers });
 });
+
+app.post('/app/:id/settings/printer/remove', async (req, res) => {
+    if (req.params.id != appCode) {
+        res.status(404).json({ status: 'error', message: 'Connection to API failed' });
+        return;
+    }
+
+    const { userId, socketId } = req.body;
+    mongoose.connect(process.env.DB_CONNECTION)
+    Printers.findOne({ userId }, (err, result) => {
+        if (err) {
+            res.json({ status: 'error', message: err});
+            return;
+        }
+        if (result) {
+            console.log(result)
+            const { printers } = result;
+            const filteredPrinters = printers.filter(value => {
+                return value.socketId !== socketId;
+            });
+            console.log('Filtrowane: ', filteredPrinters);
+
+            Printers.updateOne({ userId }, { printers: filteredPrinters }, (err, result) => {
+                if (err) {
+                    res.json({ status: 'error', message: err});
+                    return;
+                }
+                res.json({ status: 'success', message: 'Printer removed' });
+            });
+        }
+    });
+})
 
 // PDF
 
@@ -278,7 +310,6 @@ app.get('/users/:code', async (req, res) => {
             }
         })
     } else res.json({ status: 'error', message: 'Code not found!' })
-
 })
 
 app.put('/users/:id', async (req, res) => {
