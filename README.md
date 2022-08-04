@@ -2,17 +2,7 @@
 #### Help to manage waste cards in a simple and fast way in the  [BDO system](https://bdo.mos.gov.pl/)
 #### File APK [here](https://github.com/RederAc3/BDO/releases).
 
-# 📸 Screenshots
-| Login | Registration | Add API Keys | Home |
-| --- | --- | --- | --- |
-| <img src="./screenshots/LoginScreen.png" width="220"> | <img src="./screenshots/RegistrationScreen.png" width="220"> | <img src="./screenshots/AddAPIKeysScreen.png" width="220"> | <img src="./screenshots/HomeScreen.png" width="220"> |
-
-| Create Card | Details Card | Cards Status | Cards List  |
-| --- | --- | --- | --- |
-| <img src="./screenshots/CreateCardScreen.png" width="220"> | <img src="./screenshots/DetailsCardScreen.png" width="220"> | <img src="./screenshots/CardsStatusScreen.png" width="220"> | <img src="./screenshots/CardsListScreen.png" width="220"> |
-
-# App functions
-## for KPO Card
+# App functions ( only KPO )
 ✅ Create Card \
 ✅ Confirm Card \
 ✅ Confirm Transport \
@@ -34,3 +24,12 @@
 - [ ] User custom settings
 - [ ] [BDOBot](https://github.com/RederAc3/telegramBdoBot) integration
 - [ ] Invoice management
+
+# 📸 Screenshots
+| Login | Registration | Add API Keys | Home |
+| --- | --- | --- | --- |
+| <img src="./screenshots/LoginScreen.png" width="220"> | <img src="./screenshots/RegistrationScreen.png" width="220"> | <img src="./screenshots/AddAPIKeysScreen.png" width="220"> | <img src="./screenshots/HomeScreen.png" width="220"> |
+
+| Create Card | Details Card | Cards Status | Cards List  |
+| --- | --- | --- | --- |
+| <img src="./screenshots/CreateCardScreen.png" width="220"> | <img src="./screenshots/DetailsCardScreen.png" width="220"> | <img src="./screenshots/CardsStatusScreen.png" width="220"> | <img src="./screenshots/CardsListScreen.png" width="220"> |
