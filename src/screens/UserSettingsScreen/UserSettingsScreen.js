@@ -2,36 +2,25 @@ import React, { useEffect, useState } from "react";
 import { Text, Switch, ActivityIndicator } from "react-native";
 import axios from "axios";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { ButtonSwitch, Info } from './style';
 
 import CustomInput from "../../components/CustomInput/CustomInput";
 import CustomButton from "../../components/CustomButton/CustomButton";
-
+import getCompanyId from "../../functions/getCompanyId";
 
 const UserSettingsScreen = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [switchs, setSwitchs] = useState({});
     const [qrCodeInputValue, setQrCodeInputValue] = useState('')
     const [printers, getPrinters] = useState([]);
+    
     const url = 'https://bdo.rdnt.pl'
     const appCode = 'FPRRMUXZIDKIOKXOPI'
 
-    const getUserId = async () => {
-        try {
-            const userId = await AsyncStorage.getItem('companyId')
-            if (userId) return userId
-
-        } catch (err) {
-            console.log(`[ AsyncStorage - companyId ] - ${err}`);
-            return;
-        }
-    }
-
     const getSwitchsStatus = async setSwitchs => {
         try {
-            const response = await axios.post(`${url}/app/${appCode}/switchs/status`, { userId: await getUserId() });
+            const response = await axios.post(`${url}/app/${appCode}/switchs/status`, { userId: await getCompanyId() });
             setIsLoading(false);
             return setSwitchs(response.data);
 
@@ -42,7 +31,7 @@ const UserSettingsScreen = () => {
 
     const getPrintersList = async () => {
         try {
-            const response = await axios.post(`${url}/app/${appCode}/printers/list`, { userId: await getUserId() });
+            const response = await axios.post(`${url}/app/${appCode}/printers/list`, { userId: await getCompanyId() });
             getPrinters(response.data.printers);
 
         } catch (err) {
@@ -58,7 +47,7 @@ const UserSettingsScreen = () => {
 
     const toggleSwitch = async () => {
         const data = {
-            userId: await getUserId(),
+            userId: await getCompanyId(),
             remotePrinting: !switchs.remotePrinting
         }
         try {
@@ -83,9 +72,9 @@ const UserSettingsScreen = () => {
     }
 
     const removePrinter = async (socketId) => {
-        console.warn('Druakrka zostanie usunięta')
+
         const data = {
-            userId: await getUserId(),
+            userId: await getCompanyId(),
             socketId
         }
 
@@ -94,6 +83,7 @@ const UserSettingsScreen = () => {
             const { status, message } = response.data;
             if (status === 'success') {
                 await getPrintersList();
+                console.warn('Druakrka została usunięta')
                 return;
             }
             console.warn('Wystąpił błąd usunięcia: ' + message)
@@ -106,7 +96,7 @@ const UserSettingsScreen = () => {
     const connectButtonPressed = async () => {
         let data = {
             code: qrCodeInputValue.toUpperCase().trim(),
-            userId: await getUserId()
+            userId: await getCompanyId()
         }
 
         if (qrCodeInputValue.length === 0) {
